@@ -1,0 +1,23 @@
+.P.e:{w:"";if[x like"*//*";i:first x ss"//";w:(i+2)_x;x:i#x];
+	x: $[10h=type x; value"(",@[x;where x in "[]";:;"; "],")"; x];
+	sf: 1_-1_ string first x;
+	params: 1_x;
+	exps: (&/) 0={sums (-). x=/:y}[sf] each ("[]";"{}";"()");
+	end: sf=";";
+	sf: ssr[;"\t";" "]each ssr[;"\n";""] each (0,1+where end & exps)_ sf;
+	if[pl:sf[0;0]="["; sf:,[;1_sf](0,1+first where "]"=sf 0)_ first sf ];
+	.P.t: count[sf]#0Nn; .P.i: 0; .P.w:count[sf]#enlist();
+	.P.tag:{if[count[.P.t]>.P.i+:1;.P.t[.P.i]:.z.n;.P.w[.P.i]:x]};
+	.P.x: ([] x:`$ {$[count[x]>c:100;#[c-3;x],"..";x]} each sf );
+	sf:@[sf;pl;{y,x};raze string[value[x 0]2],\:":();"];
+	sf: (pl#sf),(pl _ sf),\:" ;.P.tag[",w,"];";
+	sf: "{",(raze sf)," }";
+	f: value .P.sf:sf;
+	st:.z.n;
+	.P.r: .[f;params;{-1 x:"Function errored with '",x;x}]; .P.tag[];
+	dt:(et:.z.n)-st;
+	update time: (1_deltas 0Nn,st,1_.P.t) from `.P.x;
+	update pct: 0.1*`int$1000*time%dt from `.P.x;
+	update w:.P.w,i:i from`.P.x;
+	:.P.x:`i`pct`time`x xcols .P.x;
+	}
